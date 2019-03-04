@@ -1,94 +1,71 @@
 public class DataItems {
     public static void main(String[] args) {
 
-        //Container items = new FixedSizeContainer();
-        Container items;
+        char containerSelector = args.length > 0 ? args[0].charAt(0) : 'd';
 
-        if(args.length>0&&args[0].charAt(0)=='f')
-            items = new FixedSizeContainer();
-        else
-            items = new DynamicSizeContainer();
+        Container items = createContainer(containerSelector);
 
-        items.add("Alpha");
-        items.add("Beta");
-        items.add("Gamma");
-        items.add("Delta");
+        fillContainer(items);
+        showContainer(items);
+    }
 
-//        for (int i = 0; i < items.size(); ++i) {
-//            System.out.println(items.elementAt(i));
-//        }
-//        System.out.println();
+    private static Container createContainer(char containerSelector) {
+        switch (containerSelector) {
+            case 'f':
+                return new FixedSizeContainer();
+            case 'l':
+                return new ListContainer();
+            case 'd':
+            default:
+                return new DynamicSizeContainer();
+        }
+    }
+
+    private static void fillContainer(Container items) {
+        items.add(new Student(36847, "Joao Carneiro").toString());
+        items.add(new Student(10000, "Capitoleto Andreoleido").toString());
+        items.add(new Student(34578, "Bernie Sanders").toString());
+    }
+
+    private static void showContainer(Container items){
         for (int i = items.size() - 1; i >= 0; --i) {
             System.out.println(items.elementAt(i));
         }
     }
 }
 
-interface Container{
-    void add(String s);
+class ListNode {
+    private final String value;
+    private ListNode next;
 
-    int size();
-
-    String elementAt(int idx);
-}
-
-class DynamicSizeContainer implements Container {
-
-    private String[] storage;
-    private int numElems;
-
-    public DynamicSizeContainer() {
-        storage = new String[1];
-        numElems = 0;
+    public ListNode(String value, ListNode next) {
+        this.next = next;
+        this.value = value;
     }
 
-    public void add(String s) {
-        if (storageIsFull()) {
-            duplicateStorage();
-        }
-        storage[numElems] = s;
-        numElems += 1;
+    public String getValue() {
+        return value;
     }
 
-    public int size() {
-        return numElems;
+    public ListNode getNext() {
+        return next;
     }
 
-    public String elementAt(int idx) {
-        return storage[idx];
-    }
-
-    private boolean storageIsFull() {
-        return numElems == storage.length;
-    }
-
-    private void duplicateStorage() {
-        String[] newStorage = new String[storage.length * 2];
-        System.arraycopy(storage, 0, newStorage, 0, storage.length);
-        storage = newStorage;
+    public void setNext(ListNode next) {
+        this.next = next;
     }
 }
 
-class FixedSizeContainer implements Container{
+class Student{
+    private final int number;
+    private final String name;
 
-    private String[] storage;
-    private int numElems;
-
-    public FixedSizeContainer() {
-        storage = new String[64];
-        numElems = 0;
+    public Student(int number, String name){
+        this.number=number;
+        this.name=name;
     }
 
-    public void add(String s) {
-        storage[numElems - 1] = s;
-        numElems += 1;
-    }
-
-    public int size() {
-        return numElems;
-    }
-
-    public String elementAt(int idx) {
-        return storage[idx];
+    public String toString(){
+        return "["+number+", "+name+"]";
     }
 }
