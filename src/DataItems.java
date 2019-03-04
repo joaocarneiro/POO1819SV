@@ -33,39 +33,3 @@ public class DataItems {
         }
     }
 }
-
-class ListNode {
-    private final String value;
-    private ListNode next;
-
-    public ListNode(String value, ListNode next) {
-        this.next = next;
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public ListNode getNext() {
-        return next;
-    }
-
-    public void setNext(ListNode next) {
-        this.next = next;
-    }
-}
-
-class Student{
-    private final int number;
-    private final String name;
-
-    public Student(int number, String name){
-        this.number=number;
-        this.name=name;
-    }
-
-    public String toString(){
-        return "["+number+", "+name+"]";
-    }
-}
